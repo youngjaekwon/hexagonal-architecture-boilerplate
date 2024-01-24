@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 
-class Article(BaseModel):
+class ResponseArticle(BaseModel):
     id: int
     title: str
     content: str

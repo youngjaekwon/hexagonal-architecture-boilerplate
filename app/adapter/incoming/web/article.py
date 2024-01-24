@@ -1,7 +1,8 @@
 from app.domain.exception import error_code
 from fastapi import APIRouter, Depends, status
 
-from app.domain import schema
+from app.adapter.incoming.web.schema.response import ResponseArticle
+from app.adapter.incoming.web.schema.request import RequestArticleCreate
 from app.domain.service.article.crud import ArticleCRUDService
 from app.port.incoming.usecase.article.crud import ArticleCRUDUsecase
 
@@ -10,12 +11,12 @@ router = APIRouter()
 
 @router.get(
     "/",
-    response_model=list[schema.Article],
+    response_model=list[ResponseArticle],
     response_model_exclude_none=True,
     responses={
         status.HTTP_200_OK: {
             "description": "아티클 리스트 조회 성공",
-            "model": list[schema.Article],
+            "model": list[ResponseArticle],
         },
         status.HTTP_400_BAD_REQUEST: {
             "description": "아티클 리스트 조회 실패",
@@ -25,7 +26,7 @@ router = APIRouter()
 )
 async def get_articles(
         article_usecase: ArticleCRUDUsecase = Depends(ArticleCRUDService),
-) -> list[schema.Article] | error_code.ArticleError:
+) -> list[ResponseArticle] | error_code.ArticleError:
     """
     ## 아티클 리스트 조회
 
@@ -39,7 +40,7 @@ async def get_articles(
 
 @router.post("/")
 async def create_article(
-        article_create: schema.ArticleCreate,
+        article_create: RequestArticleCreate,
         article_usecase: ArticleCRUDUsecase = Depends(ArticleCRUDService),
-) -> schema.Article:
+) -> ResponseArticle:
     return await article_usecase.create_article(article_create)
