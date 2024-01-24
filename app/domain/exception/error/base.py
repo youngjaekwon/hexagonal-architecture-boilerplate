@@ -6,7 +6,7 @@ T = TypeVar("T", bound=IntEnum)
 V = TypeVar("V", bound=Enum)
 
 
-class CustomError(BaseModel, Generic[T, V]):
+class BaseError(BaseModel, Generic[T, V]):
     code: T
     message: V
 

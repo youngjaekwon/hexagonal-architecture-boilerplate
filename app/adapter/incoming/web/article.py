@@ -1,4 +1,4 @@
-from app.domain.exception import error_code
+from app.domain.exception import error
 from fastapi import APIRouter, Depends, status
 
 from app.adapter.incoming.web.schema.response import ResponseArticle
@@ -19,13 +19,13 @@ router = APIRouter()
         },
         status.HTTP_400_BAD_REQUEST: {
             "description": "아티클 리스트 조회 실패",
-            "content": error_code.ArticleError.generate_error_responses_content()
+            "content": error.ArticleError.generate_error_responses_content()
         },
     }
 )
 async def get_articles(
         article_usecase: ArticleCRUDUsecase = Depends(ArticleCRUDService),
-) -> list[ResponseArticle] | error_code.ArticleError:
+) -> list[ResponseArticle] | error.ArticleError:
     """
     ## 아티클 리스트 조회
 
