@@ -12,7 +12,6 @@ router = APIRouter()
 @router.get(
     "/",
     response_model=list[ResponseArticle],
-    response_model_exclude_none=True,
     responses={
         status.HTTP_200_OK: {
             "description": "아티클 리스트 조회 성공",
